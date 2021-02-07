@@ -22,8 +22,6 @@ export default {
   setup() {},
   async beforeMount() {
     const { diedAt, isDead } = await getCrabStatus();
-    console.log(diedAt);
-    console.log(isDead);
     this.diedAt = diedAt;
     this.isDead = isDead;
   },

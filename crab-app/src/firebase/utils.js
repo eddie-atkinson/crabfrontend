@@ -27,6 +27,25 @@ const getCrabDeathStatus = async () => {
   return returnObj;
 };
 
+const getCrabLastAlive = async () => {
+  const lastAliveQuery = projectFirestore
+    .collection('status')
+    .where('aliveStatus', '==', true)
+    .orderBy('dateVerified', 'desc')
+    .limit(1);
+  const queryResults = await lastAliveQuery.get();
+  const [lastAlive] = queryResults.docs.map((doc) => doc.data());
+  const {
+    dateVerified: { seconds },
+  } = lastAlive;
+  const lastAliveDate = new Date(seconds * 1000);
+  return {
+    ...lastAlive,
+    dateVerified: lastAliveDate,
+  };
+};
+
 export const getCrabStatus = async () => {
+  console.log(await getCrabLastAlive());
   return await getCrabDeathStatus();
 };
