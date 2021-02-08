@@ -46,6 +46,8 @@ const getCrabLastAlive = async () => {
 };
 
 export const getCrabStatus = async () => {
-  console.log(await getCrabLastAlive());
-  return await getCrabDeathStatus();
+  return {
+    ...(await getCrabLastAlive()),
+    ...(await getCrabDeathStatus()),
+  };
 };
