@@ -7,7 +7,9 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "date-fns": "^2.17.0",
     "firebase": "^8.2.6",
+    "vercel": "^21.2.3",
     "vue": "^3.0.5",
     "vue-router": "^4.0.3"
   },
