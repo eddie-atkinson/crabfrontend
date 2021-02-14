@@ -1,22 +1,27 @@
 <template>
   <div class="w-full h-full font-mono text-gray-200 flex justify-center m-10">
     <div class="text-center">
-      <p class="text-3xl">It has been</p>
-      <div v-if="isDead">
-        <p class="text-7xl">{{ reportedDead }}</p>
-        <p class="text-3xl">since the crab was confirmed dead</p>
-      </div>
-      <div v-else>
-        <p class="text-7xl">{{ lastReportedAlive }}</p>
+      <div v-show="dataFetched">
+        <p class="text-3xl">It has been</p>
+        <div v-if="isDead">
+          <p class="text-7xl">{{ reportedDead }}</p>
+          <p class="text-3xl">since the crab was confirmed dead</p>
+        </div>
+        <div v-else>
+          <p class="text-7xl">{{ lastReportedAlive }}</p>
+        </div>
         <p class="text-3xl">since the crab was confirmed alive</p>
-        <p class="text-xl">(it's probably dead)</p>
+        <div v-if="probablyDead">
+          <p class="text-xl">(it's probably dead)</p>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
 import { getCrabStatus } from "../firebase/utils";
-import formatDistance from "date-fns/formatDistance";
+import { formatDistance, differenceInDays } from "date-fns";
+
 export default {
   data() {
     return {
@@ -24,6 +29,7 @@ export default {
       isDead: true,
       dateVerified: new Date(),
       aliveStatus: false,
+      dataFetched: false,
     };
   },
   setup() {},
@@ -33,6 +39,7 @@ export default {
     this.dateVerified = dateVerified;
     this.diedAt = diedAt;
     this.isDead = isDead;
+    this.dataFetched = true;
   },
   computed: {
     lastReportedAlive() {
@@ -40,6 +47,9 @@ export default {
     },
     reportedDead() {
       return formatDistance(this.diedAt, new Date());
+    },
+    probablyDead() {
+      return differenceInDays(new Date(), this.dateVerified) > 5;
     },
   },
 };
