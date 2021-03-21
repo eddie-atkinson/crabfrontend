@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full font-mono text-gray-200 flex justify-center m-10">
+  <div class="w-full h-full font-mono text-gray-200 flex justify-center my-10">
     <div class="text-center">
       <div v-show="dataFetched">
         <p class="text-3xl">It has been</p>
